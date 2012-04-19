@@ -11,8 +11,8 @@
 
 @interface XMLParserHelper : NSObject <NSXMLParserDelegate>
 
-//populated dictionary will have all keys in lower case
-//tags to ignore just ignores the specific tags, not its children branches
+
+
 + (void)parseSyncXMLString:(NSString *)xml 
 				  withCallback:(void (^)(NSError *err, XMLTree *tree))acallback;
 
