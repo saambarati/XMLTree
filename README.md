@@ -12,9 +12,9 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
 	[XMLParserHelper parseSyncXMLString:xmlAsAString
 			       withCallback:^(NSError *err, XMLTree *tree) {
 						 if (err) {
-		           				NSLog(@"Error parsing XML:%@", [err localizedDescription]);
+		           			   NSLog(@"Error parsing XML:%@", [err localizedDescription]);
 						 } else {
- 							NSLog(@"%@", [tree treeAsString])
+ 						   NSLog(@"%@", [tree treeAsString])
 						 }
 					  }];
 					
@@ -24,8 +24,8 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
 	[XMLParserHelper parseSyncXMLData:xmlAsData
 			       withCallback:^(NSError *err, XMLTree *tree) {
 						 if (err) {
-		              				 NSLog(@"Error parsing XML:%@", [err localizedDescription]);
+		              	                    NSLog(@"Error parsing XML:%@", [err localizedDescription]);
 						 } else {
- 							NSLog(@"%@", [tree treeAsString])
+                                                    NSLog(@"%@", [tree treeAsString])
 						 }
 					  }];
