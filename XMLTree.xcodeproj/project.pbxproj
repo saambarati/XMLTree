@@ -10,6 +10,10 @@
 		522B7564153F6FF10092DAE8 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 522B7563153F6FF10092DAE8 /* Foundation.framework */; };
 		522B7567153F6FF10092DAE8 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B7566153F6FF10092DAE8 /* main.m */; };
 		522B756B153F6FF10092DAE8 /* XMLTree.1 in CopyFiles */ = {isa = PBXBuildFile; fileRef = 522B756A153F6FF10092DAE8 /* XMLTree.1 */; };
+		522B7576153F700F0092DAE8 /* XMLNode.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B7575153F700F0092DAE8 /* XMLNode.m */; };
+		522B7579153F72E10092DAE8 /* XMLTree.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B7578153F72E10092DAE8 /* XMLTree.m */; };
+		522B757C153F73880092DAE8 /* XMLParserHelper.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B757B153F73880092DAE8 /* XMLParserHelper.m */; };
+		522B757F153F73A30092DAE8 /* Stack.m in Sources */ = {isa = PBXBuildFile; fileRef = 522B757E153F73A30092DAE8 /* Stack.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXCopyFilesBuildPhase section */
@@ -29,8 +33,16 @@
 		522B755F153F6FF10092DAE8 /* XMLTree */ = {isa = PBXFileReference; explicitFileType = "compiled.mach-o.executable"; includeInIndex = 0; path = XMLTree; sourceTree = BUILT_PRODUCTS_DIR; };
 		522B7563153F6FF10092DAE8 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		522B7566153F6FF10092DAE8 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		522B7569153F6FF10092DAE8 /* XMLTree-Prefix.pch */ = {isa = PBXFileReference; path = "XMLTree-Prefix.pch"; sourceTree = "<group>"; };
+		522B7569153F6FF10092DAE8 /* XMLTree-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "XMLTree-Prefix.pch"; sourceTree = "<group>"; };
 		522B756A153F6FF10092DAE8 /* XMLTree.1 */ = {isa = PBXFileReference; lastKnownFileType = text.man; path = XMLTree.1; sourceTree = "<group>"; };
+		522B7574153F700F0092DAE8 /* XMLNode.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLNode.h; path = ../XMLNode.h; sourceTree = "<group>"; };
+		522B7575153F700F0092DAE8 /* XMLNode.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XMLNode.m; path = ../XMLNode.m; sourceTree = "<group>"; };
+		522B7577153F72E10092DAE8 /* XMLTree.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = XMLTree.h; sourceTree = "<group>"; };
+		522B7578153F72E10092DAE8 /* XMLTree.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = XMLTree.m; sourceTree = "<group>"; };
+		522B757A153F73880092DAE8 /* XMLParserHelper.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = XMLParserHelper.h; path = ../XMLParserHelper.h; sourceTree = "<group>"; };
+		522B757B153F73880092DAE8 /* XMLParserHelper.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = XMLParserHelper.m; path = ../XMLParserHelper.m; sourceTree = "<group>"; };
+		522B757D153F73A30092DAE8 /* Stack.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Stack.h; path = ../Stack.h; sourceTree = "<group>"; };
+		522B757E153F73A30092DAE8 /* Stack.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Stack.m; path = ../Stack.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -74,6 +86,14 @@
 			isa = PBXGroup;
 			children = (
 				522B7566153F6FF10092DAE8 /* main.m */,
+				522B757D153F73A30092DAE8 /* Stack.h */,
+				522B757E153F73A30092DAE8 /* Stack.m */,
+				522B7574153F700F0092DAE8 /* XMLNode.h */,
+				522B7575153F700F0092DAE8 /* XMLNode.m */,
+				522B7577153F72E10092DAE8 /* XMLTree.h */,
+				522B7578153F72E10092DAE8 /* XMLTree.m */,
+				522B757A153F73880092DAE8 /* XMLParserHelper.h */,
+				522B757B153F73880092DAE8 /* XMLParserHelper.m */,
 				522B756A153F6FF10092DAE8 /* XMLTree.1 */,
 				522B7568153F6FF10092DAE8 /* Supporting Files */,
 			);
@@ -140,6 +160,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				522B7567153F6FF10092DAE8 /* main.m in Sources */,
+				522B7576153F700F0092DAE8 /* XMLNode.m in Sources */,
+				522B7579153F72E10092DAE8 /* XMLTree.m in Sources */,
+				522B757C153F73880092DAE8 /* XMLParserHelper.m in Sources */,
+				522B757F153F73A30092DAE8 /* Stack.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

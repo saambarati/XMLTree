@@ -7,14 +7,14 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "XMLParserHelper.h"
 
 int main(int argc, const char * argv[])
 {
 
 	@autoreleasepool {
 	    
-	    // insert code here...
-	    NSLog(@"Hello, World!");
+		[XMLParserHelper parserTest];
 	    
 	}
     return 0;
