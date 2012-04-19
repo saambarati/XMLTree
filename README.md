@@ -16,7 +16,7 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
                                            } else {
                                               NSLog(@"%@", [tree treeAsString])
                                            }
-					}];
+                                       }];
 					
 	
 #### Passing NSData (essentially the same method call)
@@ -28,4 +28,4 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
                                          } else {
                                             NSLog(@"%@", [tree treeAsString])
                                          }
-                                      }];
+                                     }];
