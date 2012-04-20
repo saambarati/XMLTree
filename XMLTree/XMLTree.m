@@ -68,5 +68,56 @@
 	return string;
 }
 
+#pragma mark Search
+//O(n), 
+-(void)tagRecursiveHelper:(NSMutableArray *)arr tag:(NSString *)atag node:(XMLNode *)node 
+{
+	if (node != nil) {
+		if ([node.tag isEqualToString:atag]) {
+			[arr addObject:node];
+		}
+		NSArray *children = [node children];
+		for (XMLNode *child in children) {
+			[self tagRecursiveHelper:arr tag:atag node:child];
+		}
+	}
+}
+-(NSArray *)getNodesWithTag:(NSString *)tag
+{
+	NSMutableArray *tagsArr = [NSMutableArray array];
+	[self tagRecursiveHelper:tagsArr tag:tag node:self.root];
+	
+	return (NSArray *)tagsArr;
+}
+
+
+//O(n)
+-(void)tagsRecursiveHelper:(NSMutableDictionary *)dict node:(XMLNode *)node
+{
+	if (node != nil) {
+		NSMutableArray *tags = [dict objectForKey:node.tag];
+		if (tags) {
+			[tags addObject:node];
+		}
+		NSArray *children = [node children];
+		for (XMLNode *child in children) {
+			[self tagsRecursiveHelper:dict node:child];
+		}
+	}
+}
+-(NSDictionary *)getNodesWithTags:(NSArray *)tags //a dictionary with arrays for each tag
+{
+	NSMutableDictionary *allTags = [NSMutableDictionary dictionary];
+	for (NSString *tag in tags) {
+		[allTags setObject:[NSMutableArray array] forKey:tag];
+	}
+	
+	[self tagsRecursiveHelper:allTags node:self.root];
+	
+	return (NSDictionary *)allTags;
+}
+
+
+
 
 @end

@@ -11,8 +11,6 @@
 
 //pseudo private properties
 @interface XMLParserHelper ()
-{
-}
 
 @property (nonatomic, copy) void (^callback)(NSError *err, NSDictionary *parsed);
 @property (nonatomic, retain) NSError *parseError;
@@ -29,11 +27,13 @@
 @synthesize xmlStack = _xmlStack;
 @synthesize xmlTree = _xmlTree;
 
+
 -(id)init
 {
 	[NSException raise:@"Private class, cannot initialize" format:@"Logic Error"];
 	return nil; //uncreachable, but annoying warning
 }
+
 -(id)privateInit
 {
 	self = [super init];
@@ -130,7 +130,7 @@ qualifiedName:(NSString *)qName
 																		@"<two>childOfOne, second sibling</two>"
 																		@"<two>"
 																			@"<three>child of two</three>"
-																			@"<three>"
+																			@"<three> hello"
 																				@"<four>child of three</four>"
 																			@"</three>"
 																			@"<three>child of two, sibling</three>"
@@ -153,8 +153,26 @@ qualifiedName:(NSString *)qName
 										  NSLog(@"Error parsing XML:%@", [err localizedDescription]);
 									  } else {
 										  NSLog(@"%@", [tree treeAsString]);
+										  NSArray *tags = [tree getNodesWithTag:@"three"];
+										  NSLog(@"========SINGLE TAG FETCH===========");
+										  for (XMLNode *node in tags) {
+											  NSLog(@"%@: %@", node.tag, node.contents);
+										  }
+										  
+										  NSLog(@"==========MULTIPLE TAG FETCH===========");
+										  NSArray *tagsToFetch = [NSArray arrayWithObjects:@"three", @"four", nil];
+										  NSDictionary *multipleTags = [tree getNodesWithTags:tagsToFetch];
+										  for (NSString *tag in tagsToFetch) {
+											  NSLog(@"--%@--", tag);
+											  NSMutableArray *nodes = [multipleTags objectForKey:tag]; 
+											  for (XMLNode *node in nodes) {
+												  NSLog(@"%@: %@", node.tag, node.contents);
+											  }
+										  }
 									  }
 								  }];
+	
+	
 	
 	
 }

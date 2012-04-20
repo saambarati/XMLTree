@@ -15,5 +15,7 @@
 
 
 -(NSString *)treeAsString;
+-(NSArray *)getNodesWithTag:(NSString *)tag; //an array of XMLNodes
+-(NSDictionary *)getNodesWithTags:(NSArray *)tags; //a dictionary with arrays of XMLNodes for each tag
 
 @end
