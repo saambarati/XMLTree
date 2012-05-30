@@ -11,6 +11,8 @@
 
 //pseudo private properties
 @interface XMLParserHelper ()
+{
+}
 
 @property (nonatomic, copy) void (^callback)(NSError *err, NSDictionary *parsed);
 @property (nonatomic, retain) NSError *parseError;
@@ -28,11 +30,13 @@
 @synthesize xmlTree = _xmlTree;
 
 
+
 -(id)init
 {
 	[NSException raise:@"Private class, cannot initialize" format:@"Logic Error"];
 	return nil; //uncreachable, but annoying warning
 }
+
 
 -(id)privateInit
 {
@@ -88,10 +92,10 @@ didStartElement:(NSString *)elementName
 qualifiedName:(NSString *)qName 
    attributes:(NSDictionary *)attributeDict 
 {	
-	XMLNode *parent = [self.xmlStack peek];
 	XMLNode *newNode = [[[XMLNode alloc] init] autorelease];
 	newNode.tag = elementName;
 	newNode.attributes = attributeDict;
+	XMLNode *parent = [self.xmlStack peek];
 	[parent addChild:newNode];
 	[self.xmlStack push:newNode];
 	
@@ -108,9 +112,7 @@ didEndElement:(NSString *)elementName
  namespaceURI:(NSString *)namespaceURI 
 qualifiedName:(NSString *)qName
 {		
-//	XMLNode *removal = [self.xmlStack pop];
 	[self.xmlStack pop];
-	//if any work needs to happen ...
 }
 
 //Sent by a parser object to its delegate when it encounters a fatal error.
@@ -130,7 +132,7 @@ qualifiedName:(NSString *)qName
 																		@"<two>childOfOne, second sibling</two>"
 																		@"<two>"
 																			@"<three>child of two</three>"
-																			@"<three> hello"
+																			@"<three>"
 																				@"<four>child of three</four>"
 																			@"</three>"
 																			@"<three>child of two, sibling</three>"
@@ -146,40 +148,17 @@ qualifiedName:(NSString *)qName
 																	@"</one>"
 						  ];
 														
-	
 	[XMLParserHelper parseSyncXMLString:xml
 								  withCallback:^(NSError *err, XMLTree *tree) {
 									  if (err) {
 										  NSLog(@"Error parsing XML:%@", [err localizedDescription]);
 									  } else {
 										  NSLog(@"%@", [tree treeAsString]);
-										  NSArray *tags = [tree getNodesWithTag:@"three"];
-										  NSLog(@"========SINGLE TAG FETCH===========");
-										  for (XMLNode *node in tags) {
-											  NSLog(@"%@: %@", node.tag, node.contents);
-										  }
-										  
-										  NSLog(@"==========MULTIPLE TAG FETCH===========");
-										  NSArray *tagsToFetch = [NSArray arrayWithObjects:@"three", @"four", nil];
-										  NSDictionary *multipleTags = [tree getNodesWithTags:tagsToFetch];
-										  for (NSString *tag in tagsToFetch) {
-											  NSLog(@"--%@--", tag);
-											  NSMutableArray *nodes = [multipleTags objectForKey:tag]; 
-											  for (XMLNode *node in nodes) {
-												  NSLog(@"%@: %@", node.tag, node.contents);
-											  }
-										  }
 									  }
 								  }];
 	
 	
-	
-	
 }
-
-
-
-
 
 
 -(void)dealloc

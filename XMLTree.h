@@ -19,3 +19,4 @@
 -(NSDictionary *)getNodesWithTags:(NSArray *)tags; //a dictionary with arrays of XMLNodes for each tag
 
 @end
+
