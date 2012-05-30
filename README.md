@@ -29,3 +29,7 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
                                             NSLog(@"%@", [tree treeAsString])
                                          }
                                      }];
+ 
+#### TODO
+The API needs some serious work. It is not good to take a callback as a block for a method that will execute synchronously. It is much better
+to take a block and execute async and then perform the callback on the main thread. This is the next thing to be worked on.

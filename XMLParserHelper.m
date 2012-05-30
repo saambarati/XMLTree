@@ -59,7 +59,7 @@
 	XMLTree uses a stack to populate the data, as new tags are encountered, we pop them onto the stack, and we make 
 	them the child of the item before them in the stack. When a tag ends, the stack pops the last item off.
    As incoming xml contents are coming in, we store them in the stacks top item's contents string
- */
+*/
 + (void)parseSyncXMLString:(NSString *)xml 
 			 withCallback:(void (^)(NSError *err, XMLTree *tree)) cb
 {
@@ -70,10 +70,8 @@
 		  withCallback:(void (^)(NSError *err, XMLTree *tree)) cb
 {
 	XMLParserHelper *helper = [[[XMLParserHelper alloc] privateInit] autorelease];
-
-	
 	NSXMLParser *parser = [[[NSXMLParser alloc] initWithData:xml] autorelease];
-	
+
 	//parsing is synchronous
 	parser.delegate = helper;
 	[parser parse];

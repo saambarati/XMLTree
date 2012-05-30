@@ -19,11 +19,9 @@
 		_root.nextSibling = nil;
 		_root.tag = @"****XMLTree Root****";
 	}
-	
+
 	return self;
 }
-
-
 
 -(NSString *)treeAsString
 {
