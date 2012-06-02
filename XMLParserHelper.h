@@ -13,10 +13,10 @@
 
 
 
-+ (void)parseSyncXMLString:(NSString *)xml 
++ (void)parseAsyncXMLString:(NSString *)xml 
 				  withCallback:(void (^)(NSError *err, XMLTree *tree))acallback;
 
-+ (void)parseSyncXMLData:(NSData *)xml 
++ (void)parseAsyncXMLData:(NSData *)xml 
 				withCallback:(void (^)(NSError *err, XMLTree *tree))acallback;
 
 +(void)parserTest;

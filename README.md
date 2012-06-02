@@ -9,7 +9,7 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
 #### Passing an NSString
 	
 	
-    [XMLParserHelper parseSyncXMLString:xmlAsAString
+    [XMLParserHelper parseAsyncXMLString:xmlAsAString
                            withCallback:^(NSError *err, XMLTree *tree) {
                                            if (err) {
                                               NSLog(@"Error parsing XML:%@", [err localizedDescription]);
@@ -18,10 +18,10 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
                                            }
                                        }];
 					
-	
+
 #### Passing NSData (essentially the same method call)
 
-    [XMLParserHelper parseSyncXMLData:xmlAsData
+    [XMLParserHelper parseAsyncXMLData:xmlAsData
                          withCallback:^(NSError *err, XMLTree *tree) {
                                          if (err) {
                                             NSLog(@"Error parsing XML:%@", [err localizedDescription]);
@@ -29,7 +29,9 @@ XMLTree isn't heavily tested against, so make sure to write in some tests if you
                                             NSLog(@"%@", [tree treeAsString])
                                          }
                                      }];
- 
-#### TODO
-The API needs some serious work. It is not good to take a callback as a block for a method that will execute synchronously. It is much better
-to take a block and execute async and then perform the callback on the main thread. This is the next thing to be worked on.
+
+#### Notes
+All parsing is done asynchronously on a separate thread. When parsing is completed, the callback will fire from the Main Thread.
+
+XMLTree relies on Grand Central Dispatch and uses the method `dispatch_async(dispatch_get_main_queue(), ...)`. This method
+doesn't work unless you have a `UIApplication` or `NSApplication` because there is no `dispatch_get_main_queue()`.

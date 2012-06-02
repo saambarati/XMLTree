@@ -9,12 +9,12 @@
 #import "XMLParserHelper.h"
 #import "Stack.h"
 
+
 //pseudo private properties
 @interface XMLParserHelper ()
 {
 }
 
-@property (nonatomic, copy) void (^callback)(NSError *err, NSDictionary *parsed);
 @property (nonatomic, retain) NSError *parseError;
 @property (nonatomic, retain) Stack *xmlStack;
 @property (nonatomic, retain) XMLTree *xmlTree;
@@ -24,7 +24,6 @@
 
 @implementation XMLParserHelper
 
-@synthesize callback = _callback;
 @synthesize parseError = _parseError;
 @synthesize xmlStack = _xmlStack;
 @synthesize xmlTree = _xmlTree;
@@ -34,7 +33,7 @@
 -(id)init
 {
 	[NSException raise:@"Private class, cannot initialize" format:@"Logic Error"];
-	return nil; //uncreachable, but annoying warning
+  return nil; //annoying warning
 }
 
 
@@ -43,7 +42,6 @@
 	self = [super init];
 	
 	if (self) {
-		_callback = nil;
 		_parseError = nil;
 		_xmlStack = [[Stack alloc] init];
 		_xmlTree = [[XMLTree alloc] init];
@@ -60,28 +58,29 @@
 	them the child of the item before them in the stack. When a tag ends, the stack pops the last item off.
    As incoming xml contents are coming in, we store them in the stacks top item's contents string
 */
-+ (void)parseSyncXMLString:(NSString *)xml 
++ (void)parseAsyncXMLString:(NSString *)xml 
 			 withCallback:(void (^)(NSError *err, XMLTree *tree)) cb
 {
-	[XMLParserHelper parseSyncXMLData:[xml dataUsingEncoding:NSUTF8StringEncoding] withCallback:cb];
+	[XMLParserHelper parseAsyncXMLData:[xml dataUsingEncoding:NSUTF8StringEncoding] withCallback:cb];
 }
 
-+ (void)parseSyncXMLData:(NSData *)xml 
++ (void)parseAsyncXMLData:(NSData *)xml 
 		  withCallback:(void (^)(NSError *err, XMLTree *tree)) cb
 {
-	XMLParserHelper *helper = [[[XMLParserHelper alloc] privateInit] autorelease];
-	NSXMLParser *parser = [[[NSXMLParser alloc] initWithData:xml] autorelease];
-
-	//parsing is synchronous
-	parser.delegate = helper;
-	[parser parse];
-	
-	cb(helper.parseError, helper.xmlTree);
+  dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
+    //NSAssert([NSThread currentThread] != [NSThread mainThread], @"Current thread is main thread, it shouldn't be.");
+    XMLParserHelper *helper = [[[XMLParserHelper alloc] privateInit] autorelease];
+    NSXMLParser *parser = [[[NSXMLParser alloc] initWithData:xml] autorelease];
+    
+    parser.delegate = helper;
+    [parser parse];   //parsing is synchronous
+    dispatch_async(dispatch_get_main_queue(), ^{
+      //NSAssert([NSThread currentThread] == [NSThread mainThread], @"Not main thread in XMLParserHelper callback method");
+      cb(helper.parseError, helper.xmlTree);
+    });
+  });
 }
-								  
-
-
-
+						  
 #pragma mark NSXMLParserDelegate
 
 -(void)parser:(NSXMLParser *)parser 
@@ -96,7 +95,6 @@ qualifiedName:(NSString *)qName
 	XMLNode *parent = [self.xmlStack peek];
 	[parent addChild:newNode];
 	[self.xmlStack push:newNode];
-	
 }
 
 -(void)parser:(NSXMLParser *)parser 
@@ -146,7 +144,7 @@ qualifiedName:(NSString *)qName
 																	@"</one>"
 						  ];
 														
-	[XMLParserHelper parseSyncXMLString:xml
+	[XMLParserHelper parseAsyncXMLString:xml
 								  withCallback:^(NSError *err, XMLTree *tree) {
 									  if (err) {
 										  NSLog(@"Error parsing XML:%@", [err localizedDescription]);
@@ -161,7 +159,6 @@ qualifiedName:(NSString *)qName
 
 -(void)dealloc
 {
-	[_callback release];
 	[_xmlStack release];
 	[_xmlTree release];
 	[_parseError release];
