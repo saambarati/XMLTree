@@ -121,22 +121,23 @@ qualifiedName:(NSString *)qName
 
 +(void)parserTest
 {
+  NSString *es = @"Something went wrong in our XML parser unit test";
 	NSString *xml = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
-																	@"<one> hello world"
+                                 @"<one hello=\"world\" foo=\"bar\">"
 																		@"<two>childOfOne</two>"
 																		@"<two>childOfOne, sibling</two>"
 																		@"<two>childOfOne, second sibling</two>"
 																		@"<two>"
 																			@"<three>child of two</three>"
 																			@"<three>"
-																				@"<four>child of three</four>"
+                                      @"<four child=\"of_three\">child of three</four>"
 																			@"</three>"
 																			@"<three>child of two, sibling</three>"
 																		@"</two>"
 																	   @"<two>"
 																			@"<three>child of two</three>"
-																			@"<three> "
-																				@"<four>child of three</four>"
+																			@"<three>"
+																				@"<four child=\"of_three\">child of three</four>"
 																			@"</three>"
 																			@"<three>child of two</three>"
 																	  @"</two>"
@@ -150,6 +151,16 @@ qualifiedName:(NSString *)qName
 										  NSLog(@"Error parsing XML:%@", [err localizedDescription]);
 									  } else {
 										  NSLog(@"%@", [tree treeAsString]);
+                      XMLNode *one = [[tree getNodesWithTag:@"one"] objectAtIndex:0];
+                      NSAssert([one.attributes count] == 2, es);
+                      NSAssert([[one.attributes objectForKey:@"hello"] isEqualToString:@"world"] == true, es);
+                      NSAssert([[one.attributes objectForKey:@"foo"] isEqualToString:@"bar"] == true, es);
+                      for (XMLNode *four in [tree getNodesWithTag:@"four"]) {
+                        NSAssert([[four.attributes objectForKey:@"child"] isEqualToString:@"of_three"] == true, es);
+                        NSAssert([four.contents isEqualToString:@"child of three"] == true, es);
+                      }
+                      
+                      NSLog(@"Passed unit test");
 									  }
 								  }];
 	
