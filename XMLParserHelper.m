@@ -53,11 +53,6 @@
 }
 
 
-/*
-	XMLTree uses a stack to populate the data, as new tags are encountered, we pop them onto the stack, and we make 
-	them the child of the item before them in the stack. When a tag ends, the stack pops the last item off.
-   As incoming xml contents are coming in, we store them in the stacks top item's contents string
-*/
 + (void)parseAsyncXMLString:(NSString *)xml 
 			 withCallback:(void (^)(NSError *err, XMLTree *tree)) cb
 {
@@ -83,6 +78,11 @@
 						  
 #pragma mark NSXMLParserDelegate
 
+/*
+	XMLTree uses a stack to populate the data, as new tags are encountered, we push them onto the stack, and we make 
+	them the child of the item before them in the stack. When a tag ends, the stack pops the last item off.
+   As incoming xml contents are coming in, we store them in the stacks top item's contents string
+*/
 -(void)parser:(NSXMLParser *)parser 
 didStartElement:(NSString *)elementName 
  namespaceURI:(NSString *)namespaceURI 
@@ -121,7 +121,6 @@ qualifiedName:(NSString *)qName
 
 + (void)parserTest
 {
-  NSString *es = @"Something went wrong in our XML parser unit test";
 	NSString *xml = [NSString stringWithFormat:@"<?xml version=\"1.0\" encoding=\"utf-8\"?>"
                                  @"<one hello=\"world\" foo=\"bar\">"
 																		@"<two>childOfOne</two>"
@@ -130,7 +129,7 @@ qualifiedName:(NSString *)qName
 																		@"<two>"
 																			@"<three>child of two</three>"
 																			@"<three>"
-                                      @"<four child=\"of_three\">child of three</four>"
+                                        @"<four child=\"of_three\">child of three</four>"
 																			@"</three>"
 																			@"<three>child of two, sibling</three>"
 																		@"</two>"
@@ -147,6 +146,7 @@ qualifiedName:(NSString *)qName
 														
 	[XMLParserHelper parseAsyncXMLString:xml
 								  withCallback:^(NSError *err, XMLTree *tree) {
+                    NSString *es = @"Something went wrong in our XML parser unit test";
                     NSLog(@"%@", [tree treeAsString]);
                     NSAssert(!err, es);
                     XMLNode *one = [[tree getNodesWithTag:@"one"] objectAtIndex:0];
