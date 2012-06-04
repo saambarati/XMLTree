@@ -111,7 +111,6 @@ qualifiedName:(NSString *)qName
 	[self.xmlStack pop];
 }
 
-//Sent by a parser object to its delegate when it encounters a fatal error.
 - (void)parser:(NSXMLParser *)parser parseErrorOccurred:(NSError *)error
 {
 //	NSLog(@"Encountered fatal XML Parse Error");
